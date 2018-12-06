@@ -27,6 +27,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.FirestoreOptions;
+import com.google.cloud.firestore.QuerySnapshot;
+
 // With @WebServlet annotation the webapp/WEB-INF/web.xml is no longer required.
 @WebServlet(name = "HelloAppEngine", value = "/hello")
 public class HelloAppEngine extends HttpServlet {
@@ -39,7 +45,8 @@ public class HelloAppEngine extends HttpServlet {
     response.setContentType("text/plain");
     response.getWriter().println("Hello App Engine - Standard using "
             + SystemProperty.version.get() + " Java "
-            + properties.get("java.specification.version"));
+            + properties.get("java.specification.version")
+            + "; result of fireTest: " + fireTest());
   }
 
   public static String getInfo() {
@@ -47,6 +54,18 @@ public class HelloAppEngine extends HttpServlet {
           + " OS: " + System.getProperty("os.name")
           + " User: " + System.getProperty("user.name");
   }
-
+	public boolean fireTest() {
+	    FirestoreOptions firestoreOptions = FirestoreOptions.getDefaultInstance().toBuilder()
+			.setProjectId("chockstone-dev-poc-fire-db")
+			.build();
+	    Firestore firestore = firestoreOptions.getService();
+	    CollectionReference foo = firestore.collection("foo");
+		ApiFuture<QuerySnapshot> future = foo.get();
+		try {
+			return null != future.get();
+		} catch (Exception e) {
+			throw new IllegalStateException(e);
+		}
+	}
 }
 // [END example]

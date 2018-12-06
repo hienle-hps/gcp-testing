@@ -102,6 +102,19 @@ limitations under the License.
       <version>2.23.4</version>
       <scope>test</scope>
     </dependency>
+    
+    <!-- firestore libraries -->
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-core</artifactId>
+      <version>1.52.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-firestore</artifactId>
+      <version>0.72.0-beta</version>
+    </dependency>
+    
     <!-- [END_EXCLUDE] -->
   </dependencies>
 
